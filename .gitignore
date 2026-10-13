@@ -1,0 +1,15 @@
+biblioteca/
+.env
+.env.*
+node_modules/
+dist/
+.astro/
+__pycache__/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.pytest_cache/
+.ruff_cache/
+sitio/src/content/docs/lecciones/
+sitio/public/lecciones/
+sitio/src/estilos/tokens.css
