@@ -1,0 +1,29 @@
+name: guardas
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  guardas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v10.3.0
+      - name: Alcance del PR
+        if: github.event_name == 'pull_request'
+        env:
+          BASE: ${{ github.base_ref }}
+          AUTOR: ${{ github.event.pull_request.user.login }}
+        run: uv run --project herramientas guarda-alcance --base "origin/$BASE" --autor "$AUTOR"
+      - name: Independencia
+        run: uv run --project herramientas guarda-independencia
+      - name: Binarios prohibidos
+        run: uv run --project herramientas guarda-binarios
+      - name: Secretos
+        uses: gitleaks/gitleaks-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
